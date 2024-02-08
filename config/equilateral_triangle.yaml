@@ -1,0 +1,3 @@
+data_reader:
+  ros__parameters:
+    file_path: "/home/morgan/Documents/Code_these/Phd_fleet_stability/ROVs/ROV_simulation/data/simu_equilateral_triangle.json"
