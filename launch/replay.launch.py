@@ -1,4 +1,4 @@
-# Description: Launch file for bag2csv node
+# Description: Launch file for replay node
 import os
 import launch
 
@@ -20,7 +20,7 @@ def generate_launch_description():
     # rosbag_file = "/guerledan_fevrier_2024/vy_stop2/vy_stop2_0"
 
     # rosbag_file = "/guerledan_fevrier_2024/vy_stop3/vy_stop3_0"
-    rosbag_file = "/guerledan_fevrier_2024/vx_stop3/vx_stop3_0"
+    # rosbag_file = "/guerledan_fevrier_2024/vx_stop3/vx_stop3_0"
 
     # rosbag_file = "/guerledan_fevrier_2024/vx_vide/vx_vide2_0"
     # rosbag_file = "/guerledan_fevrier_2024/vy_vide/vy_vide_0"
@@ -33,37 +33,38 @@ def generate_launch_description():
     # rosbag_file = "/guerledan_fevrier_2024/vyconst85/vyconst85_0"
     # rosbag_file = "/guerledan_fevrier_2024/vyconst110/vyconst110_0"
 
-    rosbag_full_path = rosbag_folder + rosbag_file+".db3"
-    csv_full_path = rosbag_folder + rosbag_file+".csv"
+    # rosbag_file = "/rosbag-submeeting-june-2024/tests_mer_usbl_lion_de_mer/formation_sous_eau_1/rosbag2_2024_05_29-11_23_00/rosbag2_2024_05_29-11_23_00_0.db3"
+    # rosbag_file = "/rosbag-submeeting-june-2024/tests_mer_usbl_lion_de_mer/formation_sous_eau_2/rosbag2_2024_05_29-11_27_47/rosbag2_2024_05_29-11_27_47_0.db3"
+    rosbag_file = "/rosbag-submeeting-june-2024/formation_rovs_port_st_raphael/2_rovs_formation_st_raphael_pwm_80_n3/rosbag2_2024_05_28-16_21_29/rosbag2_2024_05_28-16_21_29_0.db3"
 
-    # config = os.path.join(
-    #     get_package_share_directory('rov_rviz_ros2'),
-    #     'config', # repertoire
-    #     'bag2csv.yaml')
 
+
+    rosbag_full_path = rosbag_folder + rosbag_file
     node = Node(
         package='rov_rviz_ros2',
         namespace ='',
-        executable = 'bag2csv',
-        name = 'bag2csv',
+        executable = 'replay',
+        name = 'rov_rviz_replay',
         parameters = [
-            {"csv_full_path": csv_full_path}
+            {"rovA_name": "inky"},
+            {"rovB_name": "blinky"}
         ]
     )
 
-    # node_rosbag = Node(
-    #     package='bag',
-    #     namespace ='',
-    #     executable ='play',
-    #     name='rosbag_player',
-    #     arguments="$(arg rosbag_folder)$(arg rosbag_file) --topics /mavros/global_position.local /mavros/rc/override"
-    # )
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        name='rviz2',
+        output='screen',
+        arguments=['-d', '/home/morgan/Documents/Code_these/ros2/src/rov_rviz_ros2/config/replay.rviz']
+    )
+
     rosbag = launch.actions.ExecuteProcess(
-        cmd=['ros2', 'bag', 'play', rosbag_full_path,'--topics', '/mavros/global_position/local', '/mavros/rc/override'],
-        # cmd='ros2 bag play '+ rosbag_full_path+ ' --topics  /mavros/global_position/local /mavros/rc/override',
+        cmd=['ros2', 'bag', 'play', rosbag_full_path,'--topics', '/bouee/usbl', '/bouee/imu_data',
+            "/inky/mavros/global_position/local", "/blinky/mavros/global_position/local",
+             "/inky/coord_objectif","/blinky/coord_objectif",
+             "/inky/mavros/rc/override","/blinky/mavros/rc/override"],
         output='screen'
     )
 
-    # return LaunchDescription([node,node_rosbag])
-    # return LaunchDescription([node])
-    return LaunchDescription([rosbag,node])
+    return LaunchDescription([rosbag,node,rviz_node])

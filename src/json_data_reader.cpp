@@ -92,7 +92,7 @@ private:
         marker.id = 0;
         marker.type = visualization_msgs::msg::Marker::MESH_RESOURCE;
         marker.action = visualization_msgs::msg::Marker::ADD;
-        marker.mesh_resource = "package://rov_rviz/meshs/ROV_simple.stl";
+        marker.mesh_resource = "package://rov_rviz_ros2/meshs/ROV_simple.stl";
 
         tf2::Quaternion q;
         q.setRPY(0, 0, -M_PI/2);

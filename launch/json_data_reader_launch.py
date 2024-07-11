@@ -7,18 +7,18 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     config = os.path.join(
-        get_package_share_directory('rov_rviz'),
+        get_package_share_directory('rov_rviz_ros2'),
         'config', # repertoire
         'equilateral_triangle.yaml')
 
     config_rviz = os.path.join(
-        get_package_share_directory('rov_rviz'),
+        get_package_share_directory('rov_rviz_ros2'),
         'config', # repertoire
         'rviz_config.rviz'
     )
 
     node = Node(
-        package='rov_rviz',
+        package='rov_rviz_ros2',
         namespace ='',
         executable = 'json_data_reader',
         name = 'json_data_reader',
