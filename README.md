@@ -1,4 +1,5 @@
 # rov_rviz_ros2
+This is a ROS Package I used during my Phd to display BlueRov rosbag on Rviz, version ROS2
 Same as rov_rviz_ros1 but for ros2
 
 ## Nodes
